@@ -85,54 +85,37 @@ reconstructed = U(:,1:20) * subspace_coefficients + X_mean;
 subplot(1,2,2);
 imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; axis off;
 
+pause;
+close all;
 
-%D = diag(S);
+image_ids = [ 33 66 99 ]
+figure;
 
-%Lambda = D.*D/num_files;
+for i=1:3
+	% project image into subspace
+	image = X_0(:,image_ids(i));
+	subspace_coefficients = U(:,1:20)' * image;
+	
+	% display image and reconstructed image together with the likelihood
+	subplot(3,2,i*2-1);
+	imagesc(reshape(X(:,image_ids(i)), image_dim(1), image_dim(2))); colormap gray; 
+	xlabel(num2str(approx_image_like(image, U(:,1:20), S(1:20,1:20))));
+	
+	reconstructed_0 = U(:,1:20) * subspace_coefficients;
+	reconstructed = reconstructed_0 + X_mean;
+	subplot(3,2,i*2);
+	imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; 
+	xlabel(num2str(approx_image_like(reconstructed_0, U(:,1:20), S(1:20,1:20))));
+end
 
+pause;
+close all;
+figure
 
-% project (image-mean image) onto 20 eigenvectors
-%     y = XM(:,pics(i))'*U(:,1:6);
-%     projim6 = U(:,1:6)*y';
-%     
-%     yall = XM(:,pics(i))'*U(:,1:end);
-%
-%    % log likelihood for real image
-%     d = sum((yall.*yall)./Lambda(1:end)');
-%     loglikelihood1 = d;
-%    
-%     yall = projim6'*U(:,1:end);
-%     % log likelihood for projected image
-%     d = sum((yall.*yall)./Lambda(1:end)');
-%     
-%     loglikelihood2 = d;
-%
-%     name1 = sprintf('loglikelihood is %f', loglikelihood1);
-%
-%     subplot(3,2,(i-1)*2+1);
-%     % display image
-%     imagesc(reshape(X(:,pics(i)), 72,88)); colormap gray; axis off;
-%     title(name1);
-%
-%
-%     name2 = sprintf('loglikelihood is %f', loglikelihood2);
-%
-%
-%     % display image projected onto 6 eigenvektors
-%     subplot(3,2,(i-1)*2+2);
-%
-%     imagesc(reshape(projim6+imageMean, 72,88)); colormap gray; axis off;
-%     title(name2);
-% end
-%pause;
-%
-% for i=1:3
-%     y = randn(1,6);
-%     projim = U(:,1:6)*y';
-%     % display image projected onto 6 eigenvektors
-%     subplot(1,3,i);
-%     imagesc(reshape(projim+imageMean, 72,88)); colormap gray; axis off;
-% end
-% 
-% % These random mouths look a lot like mouths because we add the mean mouth
-% % to them. If we didn't do it they would not look like mouths at all.
+% sample 6 random faces and show them together with their likelihood
+for i=1:6
+	subplot(3,2,i);
+	test = (randn(1,20)*S(1:20,1:20))';
+	imagesc(reshape((U(:,1:20)*test+X_mean), image_dim(1), image_dim(2))); colormap gray;
+	xlabel(num2str(approx_image_like(U(:,1:20)*test, U(:,1:20), S(1:20,1:20))));
+end
