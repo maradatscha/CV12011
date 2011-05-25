@@ -31,11 +31,14 @@ X_0 = X - repmat(X_mean, 1, num_files);
 % compute SVD 
 [U,S,V] = svd(X_0, 0);
 
+
 % compute cumulative variances
+S = S.*S;
+S = S / num_files;
 l = zeros(num_files,1);
-l(1)= S(1,1)*S(1,1)/num_files;
+l(1)= S(1,1);
 for i=2:num_files
-   l(i)= S(i,i)*S(i,i)/num_files;
+   l(i)= S(i,i);
    l(i)=l(i)+l(i-1);
 end
 
