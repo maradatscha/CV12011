@@ -7,9 +7,9 @@ G1A = G1A(1:end-1, 1:end-1); % take care of uneven image
 G1B = G1B(1:end-1, 1:end-1); % take care of uneven image
 G1C = G1C(1:end-1, 1:end-1); % take care of uneven image
 
-size(G1A)
-size(G1B)
-size(G1C)
+%size(G1A);
+%size(G1B);
+%size(G1C);
 
 g = make_gauss_filter([5 5], 1.0);
 
@@ -53,10 +53,6 @@ L4 = L4B.*G4C + L4A.*(ones(size(G4C))-G4C);
 L3 = L3B.*G3C + L3A.*(ones(size(G3C))-G3C);
 L2 = L2B.*G2C + L2A.*(ones(size(G2C))-G2C);
 L1 = L1B.*G1C + L1A.*(ones(size(G1C))-G1C);
-
-
-
-%insert nice display method here
 
 
 
