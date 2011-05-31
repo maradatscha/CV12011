@@ -36,6 +36,8 @@ edges(u > 0) = 1;
 figure(2); imshow(edges);
 pause;
 
+% add edges to final edgemap according to non maximum suppression
+
 final = zeros(size(edges));
 for i=3:size(edges,1)-2
     for j=3:size(edges,2)-2
