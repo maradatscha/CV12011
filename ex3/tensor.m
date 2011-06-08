@@ -15,7 +15,7 @@ function c = tensor(im, sigma)
   g = fspecial('gaussian', [2*r+1 2*r+1], sigmah);
   
   c = zeros(size(im,1), size(im,2),2,2);
-  size(c)
+
     for x =r+1:size(im,1)-r-1
         for y =r+1:size(im,2)-r-1
            a = sum(sum(g.*(imxDer(x-r:x+r, y-r:y+r).^2)));
