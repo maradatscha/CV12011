@@ -11,7 +11,7 @@ x = gaussmf(x, [sigma 0]);
 y = gaussmf(y, [sigma 0]);
 
 g = y'*x; % create matrix
-g = g./sum(sum(g)); % devide by sum to normalize
+g = g./sum(g(:)); % devide by sum to normalize
 
 end
 

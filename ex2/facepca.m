@@ -31,13 +31,12 @@ X_0 = X - repmat(X_mean, 1, num_files);
 % compute SVD 
 [U,S,V] = svd(X_0, 0);
 
+
 % compute cumulative variances
-l = zeros(num_files,1);
-l(1)= S(1,1)*S(1,1)/num_files;
-for i=2:num_files
-   l(i)= S(i,i)*S(i,i)/num_files;
-   l(i)=l(i)+l(i-1);
-end
+S = S.*S;
+S = S / num_files;
+l = diag(S,0);
+l = cumsum(l);
 
 % normalize cumulative variances
 l = l./l(num_files);
@@ -59,14 +58,14 @@ close all;
 % display mean face:
 figure;
 subplot(3,5,3);
-imagesc(reshape(X_mean,96,84)); colormap gray; axis off;
+imagesc(reshape(X_mean,96,84)); colormap gray; axis image;
 pause
  
 % display first 10 eigenfaces
 for i=1:10
 	subplot(3,5,i+5) ;
 	imagesc(reshape(U(:,i )+0.5, image_dim(1),image_dim(2)));
-	colormap gray; axis off;
+	colormap gray; axis image;
 end
 pause;
 
@@ -79,11 +78,11 @@ subspace_coefficients = U(:,1:20)' * image
 % display image and reconstructed image
 figure;
 subplot(1,2,1);
-imagesc(reshape(X(:,1), image_dim(1), image_dim(2))); colormap gray; axis off;
+imagesc(reshape(X(:,1), image_dim(1), image_dim(2))); colormap gray; axis image;
 
 reconstructed = U(:,1:20) * subspace_coefficients + X_mean;
 subplot(1,2,2);
-imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; axis off;
+imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; axis image;
 
 pause;
 close all;
@@ -98,13 +97,13 @@ for i=1:3
 	
 	% display image and reconstructed image together with the likelihood
 	subplot(3,2,i*2-1);
-	imagesc(reshape(X(:,image_ids(i)), image_dim(1), image_dim(2))); colormap gray; 
+	imagesc(reshape(X(:,image_ids(i)), image_dim(1), image_dim(2))); colormap gray; axis image;
 	xlabel(num2str(approx_image_like(image, U(:,1:20), S(1:20,1:20))));
 	
 	reconstructed_0 = U(:,1:20) * subspace_coefficients;
 	reconstructed = reconstructed_0 + X_mean;
 	subplot(3,2,i*2);
-	imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; 
+	imagesc(reshape(reconstructed, image_dim(1), image_dim(2))); colormap gray; axis image;
 	xlabel(num2str(approx_image_like(reconstructed_0, U(:,1:20), S(1:20,1:20))));
 end
 
@@ -115,7 +114,7 @@ figure
 % sample 6 random faces and show them together with their likelihood
 for i=1:6
 	subplot(3,2,i);
-	test = (randn(1,20)*S(1:20,1:20))';
-	imagesc(reshape((U(:,1:20)*test+X_mean), image_dim(1), image_dim(2))); colormap gray;
-	xlabel(num2str(approx_image_like(U(:,1:20)*test, U(:,1:20), S(1:20,1:20))));
+	sample = (randn(1,20)*sqrt(S(1:20,1:20)))';
+	imagesc(reshape((U(:,1:20)*sample+X_mean), image_dim(1), image_dim(2))); colormap gray; axis image;
+	xlabel(num2str(approx_image_like(U(:,1:20)*sample, U(:,1:20), S(1:20,1:20))));
 end
