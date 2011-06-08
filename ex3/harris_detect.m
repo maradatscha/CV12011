@@ -65,28 +65,30 @@ for d=0:8
     l = fspecial('laplacian');
     img = imfilter(im,h);
     
-    P(d+1).l = imfilter(img, l);
+    P(d+1).l = s.*s.*abs(imfilter(img, l));
 end
 
     figure(2);
     imagesc(imc);
     hold on;
-    plot(P(2).i(:,2),P(2).i(:,1),'yx');
+  %  plot(P(2).i(:,2),P(2).i(:,1),'yx');
 
-for d=2:7
+for d=2:6
     i = P(d).i;
     c = P(d).l;
     n = P(d+1).l;
     p = P(d-1).l;
     [m, j] = max([ c(:) n(:) p(:)]  , [], 2);
-    i
-    s = 1.4^d;
+    
+        
+    s = 1.4^(d-1);
     
     for p=1:size(i,1)
         sub = sub2ind(size(im), i(p,1),i(p,2));
         if (j(sub) == 1)
             pt = i(p,:);
             plot(pt(2),pt(1), 'yo', 'markersize', 10*s)
+            plot(pt(2),pt(1),'yx');
         end
     end
 

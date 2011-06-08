@@ -28,5 +28,6 @@ function c = tensor(im, sigma)
         end
     end
     
+    % take care of borders
     
 end
