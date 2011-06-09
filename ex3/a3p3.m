@@ -5,10 +5,10 @@ imc2 = imread('a3b.png');
 im1 = double(rgb2gray(imc1));
 im2 = double(rgb2gray(imc2));
 
-%imc1 =imresize(imc1, 0.125); 
-%im1= imresize(im1, 0.125);
-%imc2 =imresize(imc2, 0.125); 
-%im2= imresize(im2, 0.125);
+%imc1 =imresize(imc1, 0.25); 
+%im1= imresize(im1, 0.25);
+%imc2 =imresize(imc2, 0.25); 
+%im2= imresize(im2, 0.25);
 
 [PT1 S1] = harris_detect(im1, 1.4, 1, 8 , 0);
 [PT2 S2] = harris_detect(im2, 1.4, 1, 8 , 0);

@@ -5,13 +5,13 @@ function [m i] = findnn_chi2(D1, s1,  D2, s2)
 
     m = inf.*ones(size(D1,2), 1);
     i = zeros(size(D1,2), 1);
-    m2 = inf.*ones(size(D1,2), 1);
-    i2 = zeros(size(D1,2), 1);
+    m2 = inf.*ones(size(D2,2), 1);
+    i2 = zeros(size(D2,2), 1);
     
     for d1=1:size(D1,2)
         for d2=1:size(D2,2)
             if(s1(d1) == s2(d2))
-              d = sum( (D1(d1)-D2(d2)).^2 ./ (D1(d1)+D2(2)) ) / 2.0;
+              d = chi2_dist(D1(:,d1), D2(:,d2));
                 if (d < m(d1) && d < m2(d2))
                     if (i2(d2) > 0)
                         i(i2(d2)) = 0;
