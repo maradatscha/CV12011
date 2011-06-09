@@ -1,23 +1,14 @@
-clear all;
-close all;
-imc = imread('a3a.png');
-im = double(rgb2gray(imc));
-
-%imc =imresize(imc, 0.25); 
-%im= imresize(im, 0.25);
+function [PT S] = harris_detect(im, si, st, nd, t)
 
 P = [];
 
-for d=0:8
+for d=st-1:nd
 
-    s = 1.4^d
+    s = si^d
     a = 0.06;
 
     c = tensor(im, s);
     ha = harris(c, s, a);
-    
-    figure(1);
-    imagesc(ha);
 
     
     ha_tl = zeros(size(ha));
@@ -68,12 +59,10 @@ for d=0:8
     P(d+1).l = s.*s.*abs(imfilter(img, l));
 end
 
-    figure(2);
-    imagesc(imc);
-    hold on;
-  %  plot(P(2).i(:,2),P(2).i(:,1),'yx');
+PT = [];
+S = [];
 
-for d=2:6
+for d=st+1:nd
     i = P(d).i;
     c = P(d).l;
     n = P(d+1).l;
@@ -81,16 +70,21 @@ for d=2:6
     [m, j] = max([ c(:) n(:) p(:)]  , [], 2);
     
         
-    s = 1.4^(d-1);
+    s = 1.4^(d-1)
     
     for p=1:size(i,1)
         sub = sub2ind(size(im), i(p,1),i(p,2));
         if (j(sub) == 1)
-            pt = i(p,:);
-            plot(pt(2),pt(1), 'yo', 'markersize', 10*s)
-            plot(pt(2),pt(1),'yx');
+            PT = [PT; i(p,:)];
+            S = [S s];
+        else if(t)
+            PT = [PT; i(p,:)];
+            S = [S s];
         end
+        
     end
+
+end
 
 end
 

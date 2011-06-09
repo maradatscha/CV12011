@@ -21,7 +21,7 @@ function d = sift(pt, s, im)
 
         
         d = [];
-        
+    
     for p = 1:size(pt,1)
         sc = s(p);
         ptc = pt(p,:);
