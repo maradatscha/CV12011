@@ -4,13 +4,15 @@ function d = sift(pt, s, im)
     s_uniq = sort(s_uniq);
     P = [];
     
-    
     r = 12; 
-    
+   	
+	% compute derivatives for each scale
     for si = 1:size(s_uniq,1)
+		% smooth image with current scale
         h = fspecial('gaussian', [2*r+1 2*r+1], s_uniq(si));
         ims = imfilter( im, h);    
         
+		% get derivatives at current scale
         imxDer = 0.5*(ims(1:end-2, 1:end)-ims(3:end, 1:end));
         imxDer = [ zeros(1, size(ims,2)) ;imxDer;zeros(1, size(ims,2))];
         imyDer = 0.5*(ims(1:end, 1:end-2)-ims(1:end, 3:end));
@@ -20,17 +22,20 @@ function d = sift(pt, s, im)
     end
 
         
-        d = [];
+    d = [];
     
+	% for each point
     for p = 1:size(pt,1)
         sc = s(p);
         ptc = pt(p,:);
         i = find((s_uniq==sc),1);
-        % compute histograms
         hist = zeros(128,1);
+
+		% get 16x16 patch
         rxDer = P(i).imxDer(ptc(1)-8:ptc(1)+8,ptc(2)-8:ptc(2)+8);
         ryDer = P(i).imyDer(ptc(1)-8:ptc(1)+8,ptc(2)-8:ptc(2)+8);
         
+		% compute histogram for each subpatch
         for x =1:4
             for y = 1:4
                 ind = sub2ind([4 4], x,y)-1;
@@ -41,9 +46,11 @@ function d = sift(pt, s, im)
                 hist(ind*8+1:ind*8+8) = comp_hist(rxDerC, ryDerC);
             end
         end
+% ============================
+		% normalize euclidean norm !!!! wrong here ???
         hist = hist./norm(hist);
+% ============================				
         d = [d hist];
         
     end
-
 end
