@@ -46,10 +46,10 @@ function d = sift(pt, s, im)
                 hist(ind*8+1:ind*8+8) = comp_hist(rxDerC, ryDerC);
             end
         end
-% ============================
-		% normalize euclidean norm !!!! wrong here ???
+
+		% normalize euclidean norm 
         hist = hist./norm(hist);
-% ============================				
+
         d = [d hist];
         
     end
