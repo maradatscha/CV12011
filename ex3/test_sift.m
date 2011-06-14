@@ -9,6 +9,7 @@ s = [ 1.4; 1.4];
 
 d = sift(pt, s, im)
 
-  chi2_dist(d(:,1), d(:,2))
+chi2_dist(d(:,1), d(:,2))
+
 size(d)
 
