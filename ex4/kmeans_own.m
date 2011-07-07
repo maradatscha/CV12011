@@ -36,5 +36,15 @@ while(K ~= KO)
     end
     K(p) = cu;
   end
-  K;
+  
+  % compute new cluster centers
+  s = zeros(size(mu,1),1)
+
+  mu = zeros(k, size(pts,2));
+  for p=1:size(pts,1)
+    mu(K(p),:) = mu(K(p),:)+pts(p,:);
+    s(K(p))=s(K(p))+1; 
+  end
+  s = repmat(s, 1, size(pts,2))
+  mu = mu ./ s;
 end
