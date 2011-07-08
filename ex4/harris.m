@@ -17,6 +17,7 @@
 % June 2011
 
 function [mask, harris] = harris(img, sigma, fsize, th)
+
   Gau_filter    = fspecial('gaussian', fsize, sigma);
   Gau_filter_st = fspecial('gaussian', fsize, 1.6*sigma);
   deriv_filter  = [-.5 0 .5];
@@ -36,7 +37,8 @@ function [mask, harris] = harris(img, sigma, fsize, th)
   % non-maximum suppression
   blocks = im2col(harris, [3,3]);
   idx = zeros(size(img));
+
   idx(2:end-1, 2:end-1) = reshape((blocks(5,:)==max(blocks)), size(img)-2);
-  
+
   mask = (harris .* idx) > th;
 end
