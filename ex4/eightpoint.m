@@ -54,6 +54,3 @@ Fb = U*S*V';
 
 % transform F
 F = T2' * Fb * T1;
-
-
-
