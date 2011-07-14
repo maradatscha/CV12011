@@ -38,7 +38,7 @@ for i = 1:size(pt1,1)
 	plot([pt1(i,1) pt2(i,1)+dim1], [pt1(i,2) pt2(i,2)], 'y-');
 end
 
-F = eightpoint(pt1,pt2);
+F = eightpoint(pt1,pt2)
 
 % errors for all 8 points
 for i = 1:8
@@ -46,4 +46,17 @@ for i = 1:8
 end
 
 
+% show epipolar lines
+%for kk = 1:8
+%	el = F*[pt1(kk,:) 1]'
+%	x = 1:size(img2,2);
+%
+%	y = []
+%	for i = 1:size(img2,2)
+%		y(i) = -el(1)/el(2) * x(i) - el(3)/el(2);
+%		x(i) = x(i) + dim1;
+%	end
+%
+%	plot(x,y,'g')
+%end
 
