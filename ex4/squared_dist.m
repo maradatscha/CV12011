@@ -1,6 +1,4 @@
 function d = squared_dist(F, x1, x2)
-%
-%
 
 el1 = F*x1;
 el2 = F'*x2;

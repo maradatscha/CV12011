@@ -14,21 +14,21 @@ th = 1500;
 % get harris feature points
 [m1 h1] = harris(img1, sigma,fsize,th);
 [m2 h2] = harris(img2, sigma,fsize,th );
+
 px1 = [];
 py1 = [];
 px2 = [];
 py2 = [];
-
 for y=8:size(m1,1)-8
   for x =8:size(m1,2)-8
-  if (m1(y,x) ~= 0)
-      py1 = [py1;y];
-      px1 = [px1;x];
-  end
-  if (m2(y,x) ~= 0)
-	  py2 = [py2;y];
-	  px2 = [px2;x];
-  end
+  	if (m1(y,x) ~= 0)
+  	    py1 = [py1;y];
+  	    px1 = [px1;x];
+  	end
+  	if (m2(y,x) ~= 0)
+  	    py2 = [py2;y];
+  	   px2 = [px2;x];
+  	end
   end
 end
   
@@ -75,7 +75,7 @@ for k=1:3000
 	% save max inliers
 	if(num_inliers > max_inliers)
 		max_inliers = num_inliers;
-		max_inliers_samples = find(threshed ==1 );
+		max_inliers_samples = find(threshed);
 		max_inliers_F = F;
 	end
 end
@@ -97,21 +97,3 @@ plot(pt2_inliers(:,1)+dim1,pt2_inliers(:,2), 'bs');
 for i = 1:size(pt1_inliers,1)
 	plot([pt1_inliers(i,1) pt2_inliers(i,1)+dim1], [pt1_inliers(i,2) pt2_inliers(i,2)], 'y-');
 end
-
-
-
-
-
-
-
-
-
-%imshow(imgf);
-%hold on;
-%dim1 = size(img1,2);
-%
-%plot(pt1(:,1),pt1(:,2), 'rs');
-%plot(pt2(:,1)+dim1,pt2(:,2), 'bs');
-%for i = 1:10:size(pt1,1)
-%	plot([pt1(i,1) pt2(i,1)+dim1], [pt1(i,2) pt2(i,2)], 'y-');
-%end

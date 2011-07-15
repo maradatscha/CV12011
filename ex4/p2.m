@@ -11,18 +11,6 @@ th = 500;
 
 [m h] = harris(f0, sigma,fsize,th);
 
-%px = [];
-%py = [];
-%for y=5:size(m,1)-5
-%  for x =5:size(m,2)-5
-%   if (m(y,x) ~= 0)
-%      py = [py;y];
-%      px = [px;x];
-%    end
-%  end
-%end
-
-
 g = fspecial('gaussian', [fsize fsize], sigma);
 f0s = imfilter(f0, g);    
 f1s = imfilter(f1, g);
